@@ -4,10 +4,10 @@ import android.app.Application
 import org.koin.android.ext.android.startKoin
 import org.koin.dsl.module.Module
 
-abstract class This: Application() {
+abstract class This : Application() {
     abstract val koinModules: List<Module>
 
-    final override fun onCreate() {
+    override fun onCreate() {
         super.onCreate()
         startKoin(this, koinModules)
     }
