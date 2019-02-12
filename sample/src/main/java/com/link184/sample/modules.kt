@@ -8,3 +8,12 @@ val activityModules = module {
         MainViewModel()
     }
 }
+
+val fragmentModules = module {
+    factory { DependencyOne("DepOneName") }
+    factory { DependencyTwo(33) }
+
+    viewModel {
+        SimpleViewModel(get(), get())
+    }
+}

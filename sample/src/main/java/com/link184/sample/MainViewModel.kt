@@ -9,7 +9,7 @@ class MainViewModel: BaseViewModel() {
     val name: MutableLiveData<String> = MutableLiveData()
     val age = MutableLiveData<Int>()
 
-    override fun attachView() {
+    init {
         val disposable = Observable.interval(1_000, TimeUnit.MILLISECONDS).subscribe {
             name.postValue( "Name $it")
             age.postValue(it.toInt())
