@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.lifecycle.Observer
 import com.link184.architecure.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
@@ -31,6 +32,26 @@ abstract class BaseActivity<VM : BaseViewModel>(
     protected open fun onCreate(): Int = -1
 
     protected open fun initViews() {
+    }
+
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
+    }
+
+    override fun onPause() {
+        viewModel.onPause()
+        super.onPause()
+    }
+
+    override fun onStop() {
+        viewModel.detachView()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        viewModel.killView()
+        super.onDestroy()
     }
 
     /**
@@ -61,18 +82,21 @@ abstract class BaseActivity<VM : BaseViewModel>(
         if (layoutResId != -1) {
             setContentView(onCreate())
         }
+
         powerView?.setOnRefreshListener(this)
         initViews()
-        viewModel.render()
-    }
-
-    override fun onResume() {
-        super.onResume()
         viewModel.attachView()
-    }
 
-    override fun onPause() {
-        viewModel.detachView()
-        super.onPause()
+        viewModel.state.observe(this, Observer<DataState<*>> {
+            when(it) {
+                is DataState.Success<*> -> hideProgress()
+                is DataState.Fail<*> -> {
+                    hideProgress()
+                    onError(it.throwable!!)
+                }
+                is DataState.Progress<*> -> showProgress()
+            }
+        })
+        viewModel.render()
     }
 }

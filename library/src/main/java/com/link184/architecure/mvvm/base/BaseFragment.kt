@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
+import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecure.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -42,26 +43,44 @@ abstract class BaseFragment<VM : BaseViewModel>(
     protected open fun initViews() {
     }
 
-    /**
-     * Override it to handle refresh UI action. The method is triggered from SwipeRefreshLayout.
-     */
-    override fun onRefresh() {
+    override fun onResume() {
+        super.onResume()
+        viewModel.onResume()
     }
 
-    protected open fun showProgress() {
+    override fun onPause() {
+        viewModel.onPause()
+        super.onPause()
+    }
+
+    override fun onStop() {
+        viewModel.detachView()
+        super.onStop()
+    }
+
+    override fun onDestroy() {
+        viewModel.killView()
+        super.onDestroy()
+    }
+
+    override fun onRefresh() {
+        viewModel.onRefresh()
+    }
+
+    open fun showProgress() {
         powerView?.showProgress()
     }
 
-    protected open fun hideProgress() {
+    open fun hideProgress() {
         powerView?.hideProgress()
     }
 
-    /** Override it to set custom general error handling */
-    protected open fun onError(t: Throwable) {
+    /**
+     * Handle all global errors. This method can be and is called from every context dependent
+     * module.
+     */
+    open fun onError(t: Throwable) {
         powerView?.showEmptyState()
-        if (activity is BaseActivity<*>) {
-            activity.onError(t)
-        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -69,6 +88,16 @@ abstract class BaseFragment<VM : BaseViewModel>(
         powerView?.setOnRefreshListener(this)
         initViews()
         viewModel.attachView()
+        viewModel.state.observe(this, Observer<DataState<*>> {
+            when(it) {
+                is DataState.Success<*> -> hideProgress()
+                is DataState.Fail<*> -> {
+                    hideProgress()
+                    onError(it.throwable!!)
+                }
+                is DataState.Progress<*> -> showProgress()
+            }
+        })
         viewModel.render()
     }
 
