@@ -116,6 +116,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     implementation "androidx.lifecycle:lifecycle-livedata:2.0.0"
 
+    implementation 'com.google.android.material:material:1.1.0-alpha07'
+
     api 'org.koin:koin-androidx-viewmodel:2.0.1'
 
     implementation "com.link184:common-extensions:1.0.1"

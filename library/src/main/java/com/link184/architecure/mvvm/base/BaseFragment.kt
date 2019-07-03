@@ -6,20 +6,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.fragment.app.DialogFragment
-import org.koin.androidx.viewmodel.ViewModelStoreOwnerDefinition
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
+import org.koin.core.qualifier.Qualifier
 import kotlin.reflect.KClass
 
 abstract class BaseFragment<VM : BaseViewModel>(
     clazz: KClass<VM>,
-    key: String? = null,
-    name: String? = null,
-    from: ViewModelStoreOwnerDefinition? = null,
+    qualifier: Qualifier? = null,
     parameters: ParametersDefinition = { emptyParametersHolder() }
 ): DialogFragment() {
-    protected val viewModel: VM by viewModel(clazz, null, parameters)
+    protected val viewModel: VM by viewModel(clazz, qualifier, parameters)
 
     protected abstract val render: VM.() -> Unit
 
