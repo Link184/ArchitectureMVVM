@@ -13,6 +13,7 @@ import com.link184.architecure.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
+import org.koin.core.parameter.parametersOf
 import org.koin.core.qualifier.Qualifier
 import kotlin.reflect.KClass
 
@@ -23,7 +24,9 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    protected val viewModel: VM by viewModel(clazz, qualifier, parameters)
+    protected val viewModel: VM by viewModel(clazz, qualifier) {
+        parametersOf(this, *parameters().values)
+    }
 
     protected abstract val render: VM.() -> Unit
 
@@ -40,7 +43,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     }
 
     @LayoutRes
-    protected open fun onCreate(): Int = -1
+    protected abstract fun onCreate(): Int
 
     override fun initViews() {
     }

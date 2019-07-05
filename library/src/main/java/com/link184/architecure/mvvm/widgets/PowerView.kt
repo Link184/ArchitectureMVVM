@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.LayoutRes
 import androidx.core.view.*
-import com.link184.mvvm.R
+import com.link184.architecture.mvvm.R
 
 class PowerView(
     context: Context,

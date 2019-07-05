@@ -1,11 +1,11 @@
 package com.link184.architecure.mvvm.base
 
 import android.os.Bundle
-import com.link184.mvvm.R
+import com.link184.architecture.mvvm.R
 import org.koin.core.parameter.emptyParametersHolder
 
 abstract class MvvmContainerActivity<FVM : BaseViewModel, F : MvvmFragment<FVM>>
-    : MvvmActivity<BaseViewModel>(BaseViewModel::class, null, { emptyParametersHolder() }) {
+    : MvvmActivity<EmptyViewModel>(EmptyViewModel::class, null, { emptyParametersHolder() }) {
 
     override val render: BaseViewModel.() -> Unit = {}
 

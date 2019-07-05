@@ -7,7 +7,7 @@ import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.link184.mvvm.R
+import com.link184.architecture.mvvm.R
 
 internal sealed class LoadingState(
     view: PowerView,
