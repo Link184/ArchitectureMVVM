@@ -16,11 +16,13 @@ import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.qualifier.Qualifier
 import kotlin.reflect.KClass
 
-abstract class BaseFragment<VM : BaseViewModel>(
+abstract class MvvmFragment<VM : BaseViewModel>(
     clazz: KClass<VM>,
     qualifier: Qualifier? = null,
     parameters: ParametersDefinition = { emptyParametersHolder() }
-): DialogFragment(), SwipeRefreshLayout.OnRefreshListener {
+): DialogFragment(),
+    MvvmContext,
+    SwipeRefreshLayout.OnRefreshListener {
     protected val viewModel: VM by viewModel(clazz, qualifier, parameters)
 
     protected abstract val render: VM.() -> Unit
@@ -38,9 +40,9 @@ abstract class BaseFragment<VM : BaseViewModel>(
     }
 
     @LayoutRes
-    abstract fun onCreate(): Int
+    protected open fun onCreate(): Int = -1
 
-    protected open fun initViews() {
+    override fun initViews() {
     }
 
     override fun onResume() {
@@ -67,11 +69,11 @@ abstract class BaseFragment<VM : BaseViewModel>(
         viewModel.onRefresh()
     }
 
-    open fun showProgress() {
+    override fun showProgress() {
         powerView?.showProgress()
     }
 
-    open fun hideProgress() {
+    override fun hideProgress() {
         powerView?.hideProgress()
     }
 
@@ -79,7 +81,7 @@ abstract class BaseFragment<VM : BaseViewModel>(
      * Handle all global errors. This method can be and is called from every context dependent
      * module.
      */
-    open fun onError(t: Throwable) {
+    override fun onError(t: Throwable) {
         powerView?.showEmptyState()
     }
 
