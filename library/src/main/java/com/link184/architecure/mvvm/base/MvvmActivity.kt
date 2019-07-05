@@ -78,7 +78,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
         powerView?.showEmptyState()
     }
 
-    final override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val layoutResId = onCreate()
         if (layoutResId != -1) {
