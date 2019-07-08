@@ -2,10 +2,24 @@ package com.link184.architecure.mvvm.base
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
     val state by lazy {
         MutableLiveData<DataState<*>>()
+    }
+
+    /**
+     * Starts coroutines stateless
+     */
+    protected fun <T> launch(block: suspend () -> Result<T>) {
+        state.postValue(DataState.Progress<T>())
+        viewModelScope.launch {
+            block()
+                .onSuccess { state.postValue(DataState.Success(it)) }
+                .onFailure { state.postValue(DataState.Fail<T>(it)) }
+        }
     }
 
     /**
