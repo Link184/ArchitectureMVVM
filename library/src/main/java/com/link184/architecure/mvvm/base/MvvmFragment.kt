@@ -100,7 +100,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
                     hideProgress()
                     onError(it.throwable!!)
                 }
-                is DataState.Progress<*> -> showProgress()
+                is DataState.Progress -> showProgress()
             }
         })
         viewModel.render()

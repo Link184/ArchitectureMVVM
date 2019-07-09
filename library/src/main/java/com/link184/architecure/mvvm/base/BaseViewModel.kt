@@ -13,8 +13,8 @@ abstract class BaseViewModel : ViewModel() {
     /**
      * Starts coroutines stateless
      */
-    protected fun <T> launch(block: suspend () -> Result<T>) {
-        state.postValue(DataState.Progress<T>())
+    protected infix fun <T> launch(block: suspend () -> Result<T>) {
+        state.postValue(DataState.Progress)
         viewModelScope.launch {
             block()
                 .onSuccess { state.postValue(DataState.Success(it)) }

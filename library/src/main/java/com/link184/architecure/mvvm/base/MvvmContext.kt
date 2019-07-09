@@ -1,6 +1,10 @@
 package com.link184.architecure.mvvm.base
 
-interface MvvmContext {
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.Observer
+
+interface MvvmContext : LifecycleOwner {
     fun initViews()
 
     fun onResume()
@@ -25,4 +29,11 @@ interface MvvmContext {
      * module.
      */
     fun onError(t: Throwable)
+
+    /**
+     * Useful extension to reduce boilerplate.
+     */
+    infix fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
+        observe(this@MvvmContext, Observer(observer))
+    }
 }
