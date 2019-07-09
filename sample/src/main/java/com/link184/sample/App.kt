@@ -1,6 +1,6 @@
 package com.link184.sample
 
-import com.link184.architecure.mvvm.KoinApp
+import com.link184.architecture.mvvm.KoinApp
 import org.koin.core.logger.Level
 import org.koin.core.module.Module
 

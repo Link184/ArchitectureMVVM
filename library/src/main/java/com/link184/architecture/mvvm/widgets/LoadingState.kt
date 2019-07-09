@@ -1,4 +1,4 @@
-package com.link184.architecure.mvvm.widgets
+package com.link184.architecture.mvvm.widgets
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

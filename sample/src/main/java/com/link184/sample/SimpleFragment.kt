@@ -1,6 +1,6 @@
 package com.link184.sample
 
-import com.link184.architecure.mvvm.base.MvvmFragment
+import com.link184.architecture.mvvm.base.MvvmFragment
 import com.link184.extensions.loge
 
 class SimpleFragment: MvvmFragment<SimpleViewModel>(SimpleViewModel::class) {

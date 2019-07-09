@@ -1,4 +1,4 @@
-package com.link184.architecure.mvvm.base
+package com.link184.architecture.mvvm.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,9 +7,8 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.link184.architecure.mvvm.widgets.PowerView
+import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
@@ -93,7 +92,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
         powerView?.setOnRefreshListener(this)
         initViews()
         viewModel.attachView()
-        viewModel.state.observe(this, Observer<DataState<*>> {
+        viewModel.state observe {
             when(it) {
                 is DataState.Success<*> -> hideProgress()
                 is DataState.Fail<*> -> {
@@ -102,7 +101,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
                 }
                 is DataState.Progress -> showProgress()
             }
-        })
+        }
         viewModel.render()
     }
 

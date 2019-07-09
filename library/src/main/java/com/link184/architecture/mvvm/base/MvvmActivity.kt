@@ -1,12 +1,11 @@
-package com.link184.architecure.mvvm.base
+package com.link184.architecture.mvvm.base
 
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
-import androidx.lifecycle.Observer
-import com.link184.architecure.mvvm.widgets.PowerView
+import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
@@ -92,7 +91,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
         initViews()
         viewModel.attachView()
 
-        viewModel.state.observe(this, Observer<DataState<*>> {
+        viewModel.state observe {
             when (it) {
                 is DataState.Success<*> -> hideProgress()
                 is DataState.Fail<*> -> {
@@ -101,7 +100,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
                 }
                 is DataState.Progress -> showProgress()
             }
-        })
+        }
         viewModel.render()
     }
 }

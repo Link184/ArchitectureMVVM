@@ -1,11 +1,12 @@
-package com.link184.architecure.mvvm
+package com.link184.architecture.mvvm
 
 import android.app.Application
-import com.link184.architecure.mvvm.base.EmptyViewModel
+import com.link184.architecture.mvvm.base.EmptyViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.core.context.startKoin
+import org.koin.core.context.stopKoin
 import org.koin.core.logger.Level
 import org.koin.core.module.Module
 import org.koin.dsl.module
@@ -23,5 +24,10 @@ abstract class KoinApp : Application() {
             modules(module { viewModel { EmptyViewModel() } })
             modules(koinModules)
         }
+    }
+
+    override fun onTerminate() {
+        stopKoin()
+        super.onTerminate()
     }
 }

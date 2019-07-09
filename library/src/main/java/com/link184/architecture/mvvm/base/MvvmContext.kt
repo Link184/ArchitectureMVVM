@@ -1,4 +1,4 @@
-package com.link184.architecure.mvvm.base
+package com.link184.architecture.mvvm.base
 
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
