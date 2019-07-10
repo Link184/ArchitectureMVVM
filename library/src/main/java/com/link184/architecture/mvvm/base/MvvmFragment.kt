@@ -91,7 +91,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
         super.onViewCreated(view, savedInstanceState)
         powerView?.setOnRefreshListener(this)
         initViews()
-        viewModel.attachView()
         viewModel.state observe {
             when(it) {
                 is DataState.Success<*> -> hideProgress()
@@ -102,6 +101,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
                 is DataState.Progress -> showProgress()
             }
         }
+        viewModel.attachView()
         viewModel.render()
     }
 

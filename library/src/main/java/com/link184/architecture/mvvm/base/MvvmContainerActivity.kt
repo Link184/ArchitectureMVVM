@@ -6,8 +6,10 @@ import org.koin.core.parameter.emptyParametersHolder
 
 abstract class MvvmContainerActivity<FVM : BaseViewModel, F : MvvmFragment<FVM>>
     : MvvmActivity<EmptyViewModel>(EmptyViewModel::class, null, { emptyParametersHolder() }) {
-
     override val render: BaseViewModel.() -> Unit = {}
+
+    /** Give me a instance of desired fragment*/
+    protected abstract val fragment : F
 
     /** IGNORE IT*/
     final override fun onCreate(): Int = R.layout.activity_container
@@ -17,10 +19,7 @@ abstract class MvvmContainerActivity<FVM : BaseViewModel, F : MvvmFragment<FVM>>
         initViews()
         supportFragmentManager
                 .beginTransaction()
-                .replace(R.id.fragmentContainer, onCreateActivity())
+                .replace(R.id.fragmentContainer, fragment)
                 .commit()
     }
-
-    /** Give me a instance of desired fragment*/
-    abstract fun onCreateActivity(): F
 }

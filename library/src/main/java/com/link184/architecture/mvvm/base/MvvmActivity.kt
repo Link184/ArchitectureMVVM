@@ -89,7 +89,6 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 
         powerView?.setOnRefreshListener(this)
         initViews()
-        viewModel.attachView()
 
         viewModel.state observe {
             when (it) {
@@ -101,6 +100,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
                 is DataState.Progress -> showProgress()
             }
         }
+        viewModel.attachView()
         viewModel.render()
     }
 }
