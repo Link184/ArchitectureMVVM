@@ -3,6 +3,7 @@ package com.link184.architecture.mvvm.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
@@ -13,9 +14,9 @@ abstract class BaseViewModel : ViewModel() {
     /**
      * Starts coroutines stateless
      */
-    protected infix fun <T> launch(block: suspend () -> Result<T>) {
+    protected infix fun <T> launch(block: suspend () -> Result<T>): Job {
         state.postValue(DataState.Progress)
-        viewModelScope.launch {
+        return viewModelScope.launch {
             block()
                 .onSuccess { state.postValue(DataState.Success(it)) }
                 .onFailure { state.postValue(DataState.Fail<T>(it)) }
