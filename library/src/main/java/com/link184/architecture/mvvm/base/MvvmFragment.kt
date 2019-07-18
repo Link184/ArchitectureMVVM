@@ -28,6 +28,8 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     }
 
     protected abstract val render: VM.() -> Unit
+    @get:LayoutRes
+    protected abstract val layoutId: Int
 
     private val powerView: PowerView? by lazy {
         when (view) {
@@ -38,11 +40,8 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     }
 
     final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(onCreate(), container, false)
+        return inflater.inflate(layoutId, container, false)
     }
-
-    @LayoutRes
-    protected abstract fun onCreate(): Int
 
     override fun initViews() {
     }

@@ -13,5 +13,5 @@ class SimpleFragment: MvvmFragment<SimpleViewModel>(SimpleViewModel::class) {
         }
     }
 
-    override fun onCreate(): Int = R.layout.fragment_simple
+    override val layoutId: Int = R.layout.fragment_simple
 }

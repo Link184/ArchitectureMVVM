@@ -11,7 +11,7 @@ class MainActivity : MvvmActivity<MainViewModel>(MainViewModel::class) {
         })
     }
 
-    override fun onCreate(): Int = R.layout.activity_main
+    override val layoutId: Int? = R.layout.activity_main
 
     override fun initViews() {
         supportFragmentManager.beginTransaction().add(R.id.container, SimpleFragment()).commit()

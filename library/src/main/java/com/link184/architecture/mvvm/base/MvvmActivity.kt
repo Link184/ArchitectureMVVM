@@ -25,15 +25,14 @@ abstract class MvvmActivity<VM : BaseViewModel>(
     }
 
     protected abstract val render: VM.() -> Unit
+    @get:LayoutRes
+    protected abstract val layoutId: Int?
 
     private val powerView: PowerView? by lazy {
         findViewById<ViewGroup>(android.R.id.content).children.firstOrNull {
             it is PowerView
         } as? PowerView
     }
-
-    @LayoutRes
-    protected abstract fun onCreate(): Int?
 
     override fun initViews() {
     }
@@ -82,9 +81,8 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val layoutResId = onCreate()
-        if (layoutResId != -1 && layoutResId != null) {
-            setContentView(layoutResId)
+        if (layoutId != -1 && layoutId != null) {
+            setContentView(layoutId!!)
         }
 
         powerView?.setOnRefreshListener(this)

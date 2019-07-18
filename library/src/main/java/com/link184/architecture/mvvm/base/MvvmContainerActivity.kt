@@ -12,7 +12,7 @@ abstract class MvvmContainerActivity<FVM : BaseViewModel, F : MvvmFragment<FVM>>
     protected abstract val fragment : F
 
     /** IGNORE IT*/
-    final override fun onCreate(): Int = R.layout.activity_container
+    final override val layoutId: Int? = R.layout.activity_container
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
