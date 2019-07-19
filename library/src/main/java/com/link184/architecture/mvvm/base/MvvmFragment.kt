@@ -31,7 +31,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     @get:LayoutRes
     protected abstract val layoutId: Int
 
-    private val powerView: PowerView? by lazy {
+    protected val powerView: PowerView? by lazy {
         when (view) {
             is PowerView -> view as? PowerView
             is ViewGroup -> (view as ViewGroup).children.firstOrNull { it is PowerView } as? PowerView

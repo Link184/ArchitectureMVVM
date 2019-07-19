@@ -28,7 +28,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
     @get:LayoutRes
     protected abstract val layoutId: Int?
 
-    private val powerView: PowerView? by lazy {
+    protected val powerView: PowerView? by lazy {
         findViewById<ViewGroup>(android.R.id.content).children.firstOrNull {
             it is PowerView
         } as? PowerView
