@@ -15,8 +15,8 @@ abstract class BaseViewModel : ViewModel() {
      * Starts coroutines stateless
      */
     protected infix fun <T> launch(block: suspend () -> Result<T>): Job {
-        state.postValue(DataState.Progress)
         return viewModelScope.launch {
+            state.postValue(DataState.Progress)
             block()
                 .onSuccess { state.postValue(DataState.Success(it)) }
                 .onFailure { state.postValue(DataState.Fail<T>(it)) }
