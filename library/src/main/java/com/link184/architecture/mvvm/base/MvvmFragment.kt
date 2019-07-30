@@ -31,13 +31,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     @get:LayoutRes
     protected abstract val layoutId: Int
 
-    protected val powerView: PowerView? by lazy {
-        when (view) {
-            is PowerView -> view as? PowerView
-            is ViewGroup -> (view as ViewGroup).children.firstOrNull { it is PowerView } as? PowerView
-            else -> null
-        }
-    }
+    protected var powerView: PowerView? = null
 
     final override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(layoutId, container, false)
@@ -86,10 +80,8 @@ abstract class MvvmFragment<VM : BaseViewModel>(
         powerView?.showEmptyState()
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        powerView?.setOnRefreshListener(this)
-        initViews()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
         viewModel.state observe {
             when(it) {
                 is DataState.Success<*> -> hideProgress()
@@ -100,12 +92,25 @@ abstract class MvvmFragment<VM : BaseViewModel>(
                 is DataState.Progress -> showProgress()
             }
         }
-        viewModel.attachView()
         viewModel.render()
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        powerView = when (view) {
+            is PowerView -> view
+            is ViewGroup -> view.children.firstOrNull { it is PowerView } as? PowerView
+            else -> null
+        }
+
+        powerView?.setOnRefreshListener(this)
+        initViews()
+        viewModel.attachView()
     }
 
     override fun onDestroyView() {
         viewModel.detachView()
+        powerView = null
         super.onDestroyView()
     }
 }

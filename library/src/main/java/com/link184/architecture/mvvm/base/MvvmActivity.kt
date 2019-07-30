@@ -28,11 +28,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
     @get:LayoutRes
     protected abstract val layoutId: Int?
 
-    protected val powerView: PowerView? by lazy {
-        findViewById<ViewGroup>(android.R.id.content).children.firstOrNull {
-            it is PowerView
-        } as? PowerView
-    }
+    protected var powerView: PowerView? = null
 
     override fun initViews() {
     }
@@ -54,6 +50,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 
     override fun onDestroy() {
         viewModel.killView()
+        powerView = null
         super.onDestroy()
     }
 
@@ -84,6 +81,10 @@ abstract class MvvmActivity<VM : BaseViewModel>(
         if (layoutId != -1 && layoutId != null) {
             setContentView(layoutId!!)
         }
+
+        powerView = findViewById<ViewGroup>(android.R.id.content).children.firstOrNull {
+            it is PowerView
+        } as? PowerView
 
         powerView?.setOnRefreshListener(this)
         initViews()
