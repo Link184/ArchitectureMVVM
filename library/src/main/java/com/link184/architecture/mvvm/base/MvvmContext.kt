@@ -3,6 +3,7 @@ package com.link184.architecture.mvvm.base
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import com.link184.architecture.mvvm.common.Event
 
 interface MvvmContext : LifecycleOwner {
     fun initViews()
@@ -35,5 +36,14 @@ interface MvvmContext : LifecycleOwner {
      */
     infix fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
         observe(this@MvvmContext, Observer(observer))
+    }
+
+    /**
+     * Do not observe already consumed data
+     */
+    infix fun <T> LiveData<Event<T>>.observeEvent(observer: (t: T) -> Unit) {
+        observe(this@MvvmContext, Observer {
+            it.getContentIfNotHandled()?.let(observer)
+        })
     }
 }
