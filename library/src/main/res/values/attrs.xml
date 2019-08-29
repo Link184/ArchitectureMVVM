@@ -11,6 +11,7 @@
         <attr name="withSwipeRefreshLayout" format="boolean" />
         <attr name="withProgressBar" format="boolean" />
         <attr name="withRecyclerView" format="boolean" />
+        <attr name="hideContentWhenProgress" format="boolean" />
         <attr name="recyclerViewLayoutAnimation" format="reference" />
         <attr name="disableLayoutAnimation" format="boolean" />
         <attr name="emptyStateLayoutId" format="reference" />

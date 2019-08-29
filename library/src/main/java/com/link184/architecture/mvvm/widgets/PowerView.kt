@@ -15,10 +15,10 @@ class PowerView(
     attrs: AttributeSet?,
     defStyleAttr: Int,
     defStyleRes: Int
-)
-    : RelativeLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes) {
 
     private val containerPosition: Int
+    //    private val hideContentWhenProgress: Boolean
     private var container: ViewGroup? = null
     private val swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout?
         get() = container as? androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -28,7 +28,12 @@ class PowerView(
 
     constructor(context: Context) : this(context, null, 0, 0)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, defStyleRes)
@@ -53,6 +58,7 @@ class PowerView(
             withRecyclerView
         )
         containerPosition = a.getInt(R.styleable.PowerView_viewPosition, 0)
+//        hideContentWhenProgress = a.getBoolean(R.styleable.PowerView_hideContentWhenProgress, true)
 
         container = viewState.container
         progressBarContainer = viewState.progressBarContainer
@@ -100,7 +106,7 @@ class PowerView(
     private fun inflateEmptyView(@LayoutRes emptyViewId: Int): View? {
         return if (emptyViewId != -1) {
             LayoutInflater.from(context).inflate(emptyViewId, this, false)
-                    .also { it.id = R.id.powerEmptyView }
+                .also { it.id = R.id.powerEmptyView }
         } else {
             null
         }
@@ -140,11 +146,14 @@ class PowerView(
     }
 
     private fun toggleAnotherViewsVisibility(isGone: Boolean) {
-        children.filter {
-            it.id != R.id.powerEmptyView && it.id != R.id.powerContainer && it.id != R.id.powerRecyclerView &&
-                    it.id != R.id.powerProgressBar
-        }
-                .forEach { it.isGone = isGone }
+//        if (hideContentWhenProgress) {
+        children
+            .filter {
+                it.id != R.id.powerEmptyView && it.id != R.id.powerContainer && it.id != R.id.powerRecyclerView &&
+                        it.id != R.id.powerProgressBar
+            }
+            .forEach { it.isGone = isGone }
+//        }
     }
 
     private fun toggleEmptyState(isEmpty: Boolean) {

@@ -9,7 +9,7 @@ import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.widgets.PowerView
-import org.koin.androidx.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -23,7 +23,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    protected val viewModel: VM by viewModel(clazz, qualifier) {
+    protected val viewModel: VM by sharedViewModel(clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
 
