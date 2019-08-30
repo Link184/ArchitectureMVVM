@@ -8,8 +8,8 @@ import androidx.annotation.LayoutRes
 import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -18,12 +18,13 @@ import kotlin.reflect.KClass
 
 abstract class MvvmFragment<VM : BaseViewModel>(
     clazz: KClass<VM>,
+    withSharedViewModel: Boolean = false,
     qualifier: Qualifier? = null,
     parameters: ParametersDefinition = { emptyParametersHolder() }
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    protected val viewModel: VM by viewModel(clazz, qualifier) {
+    protected val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
 
