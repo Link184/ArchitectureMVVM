@@ -93,7 +93,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
                 is DataState.Progress -> showProgress()
             }
         }
-        viewModel.render()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,6 +106,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
         powerView?.setOnRefreshListener(this)
         initViews()
         viewModel.attachView()
+        viewModel.render()
     }
 
     override fun onDestroyView() {

@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.children
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
@@ -19,7 +20,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
     parameters: ParametersDefinition = { emptyParametersHolder() }
 ) : AppCompatActivity(),
     MvvmContext,
-    androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener {
+    SwipeRefreshLayout.OnRefreshListener {
     protected val viewModel: VM by viewModel(clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
