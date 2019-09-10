@@ -17,7 +17,6 @@ abstract class MvvmContainerActivity
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        initViews()
         val navHost = NavHostFragment.create(navGraphId)
         supportFragmentManager
                 .beginTransaction()
