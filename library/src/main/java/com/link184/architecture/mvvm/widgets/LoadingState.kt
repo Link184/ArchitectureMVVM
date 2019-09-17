@@ -1,6 +1,7 @@
 package com.link184.architecture.mvvm.widgets
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
@@ -16,14 +17,17 @@ internal sealed class LoadingState(
     withSwipeRefreshLayout: Boolean,
     withRecyclerView: Boolean,
     layoutAnimationId: Int,
+    progressBarLayoutId: Int,
     disableLayoutAnimation: Boolean
 ) {
-    internal val progressBarContainer: RelativeLayout? by lazy {
+    internal val progressBarContainer: View? by lazy {
         if (withProgressBar) {
+            val progressBarResource = progressBarLayoutId.takeIf { it != -1 } ?: R.layout.layout_default_progress_bar
+
             if (container != null) {
-                LayoutInflater.from(view.context).inflate(R.layout.layout_progress_bar, container, false) as RelativeLayout
+                LayoutInflater.from(view.context).inflate(progressBarResource, container, false)
             } else {
-                LayoutInflater.from(view.context).inflate(R.layout.layout_progress_bar, view, false) as RelativeLayout
+                LayoutInflater.from(view.context).inflate(progressBarResource, view, false)
             }
         } else {
             null
@@ -59,22 +63,22 @@ internal sealed class LoadingState(
         }
     }
 
-    internal class Clean(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, false, false, layoutAnimationId, disableLayoutAnimation)
-    internal class Swipe(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, true, false, layoutAnimationId, disableLayoutAnimation)
-    internal class SwipeRecycler(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, true, true, layoutAnimationId, disableLayoutAnimation)
-    internal class Progress(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, true, false, false, layoutAnimationId, disableLayoutAnimation)
-    internal class ProgressRecycler(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, true, false, true, layoutAnimationId, disableLayoutAnimation)
-    internal class Recycler(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, false, true, layoutAnimationId, disableLayoutAnimation)
+    internal class Clean(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, false, false, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+    internal class Swipe(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, true, false, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+    internal class SwipeRecycler(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, true, true, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+    internal class Progress(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, true, false, false, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+    internal class ProgressRecycler(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, true, false, true, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+    internal class Recycler(view: PowerView, containerTypeOrder: Int, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean) : LoadingState(view, containerTypeOrder, false, false, true, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
 
     companion object {
-        internal fun resolveState(view: PowerView, containerTypeOrder: Int, withProgressBar: Boolean, layoutAnimationId: Int, disableLayoutAnimation: Boolean, withSwipeRefreshLayout: Boolean, withRecyclerView: Boolean): LoadingState {
+        internal fun resolveState(view: PowerView, containerTypeOrder: Int, withProgressBar: Boolean, layoutAnimationId: Int, progressBarLayoutId: Int, disableLayoutAnimation: Boolean, withSwipeRefreshLayout: Boolean, withRecyclerView: Boolean): LoadingState {
             return when {
-                !withProgressBar && withSwipeRefreshLayout && !withRecyclerView -> Swipe(view, containerTypeOrder, layoutAnimationId, disableLayoutAnimation)
-                !withProgressBar && withSwipeRefreshLayout && withRecyclerView -> SwipeRecycler(view, containerTypeOrder, layoutAnimationId, disableLayoutAnimation)
-                withProgressBar && !withSwipeRefreshLayout && !withRecyclerView -> Progress(view, containerTypeOrder, layoutAnimationId, disableLayoutAnimation)
-                withProgressBar && !withSwipeRefreshLayout && withRecyclerView -> ProgressRecycler(view, containerTypeOrder, layoutAnimationId, disableLayoutAnimation)
-                !withProgressBar && !withSwipeRefreshLayout && withRecyclerView -> Recycler(view, containerTypeOrder, layoutAnimationId, disableLayoutAnimation)
-                !withProgressBar && !withSwipeRefreshLayout && !withRecyclerView -> Clean(view, containerTypeOrder, layoutAnimationId, disableLayoutAnimation)
+                !withProgressBar && withSwipeRefreshLayout && !withRecyclerView -> Swipe(view, containerTypeOrder, layoutAnimationId,  progressBarLayoutId, disableLayoutAnimation)
+                !withProgressBar && withSwipeRefreshLayout && withRecyclerView -> SwipeRecycler(view, containerTypeOrder, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+                withProgressBar && !withSwipeRefreshLayout && !withRecyclerView -> Progress(view, containerTypeOrder, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+                withProgressBar && !withSwipeRefreshLayout && withRecyclerView -> ProgressRecycler(view, containerTypeOrder, layoutAnimationId, progressBarLayoutId, disableLayoutAnimation)
+                !withProgressBar && !withSwipeRefreshLayout && withRecyclerView -> Recycler(view, containerTypeOrder, layoutAnimationId, progressBarLayoutId,  disableLayoutAnimation)
+                !withProgressBar && !withSwipeRefreshLayout && !withRecyclerView -> Clean(view, containerTypeOrder, layoutAnimationId, progressBarLayoutId,  disableLayoutAnimation)
                 else -> throw IllegalStateException("PowerView illegal state: withProgressBar - $withProgressBar, " +
                         "withSwipeRefreshLayout - $withSwipeRefreshLayout, withRecyclerView - $withRecyclerView")
             }

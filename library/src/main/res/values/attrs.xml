@@ -14,6 +14,7 @@
         <attr name="hideContentWhenProgress" format="boolean" />
         <attr name="recyclerViewLayoutAnimation" format="reference" />
         <attr name="disableLayoutAnimation" format="boolean" />
+        <attr name="progressBarLayoutId" format="reference" />
         <attr name="emptyStateLayoutId" format="reference" />
     </declare-styleable>
 </resources>

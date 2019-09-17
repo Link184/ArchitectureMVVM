@@ -22,18 +22,13 @@ class PowerView(
     private var container: ViewGroup? = null
     private val swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout?
         get() = container as? androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-    private val progressBarContainer: RelativeLayout?
+    private val progressBarContainer: ProgressBarContainer?
     val recyclerView: androidx.recyclerview.widget.RecyclerView?
     private val emptyView: View?
 
     constructor(context: Context) : this(context, null, 0, 0)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(
-        context,
-        attrs,
-        defStyleAttr,
-        0
-    )
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
     init {
         val a = context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, defStyleRes)
@@ -48,11 +43,13 @@ class PowerView(
         val disableLayoutAnimation = a.getBoolean(R.styleable.PowerView_disableLayoutAnimation, false)
 
         val emptyViewId = a.getResourceId(R.styleable.PowerView_emptyStateLayoutId, -1)
+        val progressBarLayoutId = a.getResourceId(R.styleable.PowerView_progressBarLayoutId, -1)
         val viewState = LoadingState.resolveState(
             this,
             containerOrder,
             withProgressBar,
             layoutAnimationId,
+            progressBarLayoutId,
             disableLayoutAnimation,
             withSwipeRefreshLayout,
             withRecyclerView
@@ -61,7 +58,12 @@ class PowerView(
 //        hideContentWhenProgress = a.getBoolean(R.styleable.PowerView_hideContentWhenProgress, true)
 
         container = viewState.container
-        progressBarContainer = viewState.progressBarContainer
+        progressBarContainer = if (viewState.progressBarContainer != null)
+            ProgressBarContainer(context).apply {
+                this += viewState.progressBarContainer!!
+            }
+        else
+            null
         recyclerView = viewState.recyclerView
         emptyView = inflateEmptyView(emptyViewId)
 
@@ -122,21 +124,21 @@ class PowerView(
             it.isVisible = it.adapter != null && it.adapter!!.itemCount > 0
         }
         toggleAnotherViewsVisibility(true)
-        progressBarContainer?.isVisible = true
+        progressBarContainer?.show()
     }
 
     fun hideProgress() {
         swipeRefreshLayout?.isRefreshing = false
         recyclerView?.isVisible = true
         recyclerView?.scheduleLayoutAnimation()
-        progressBarContainer?.isGone = true
+        progressBarContainer?.hide()
         toggleAnotherViewsVisibility(false)
     }
 
     fun showEmptyState() {
         swipeRefreshLayout?.isRefreshing = false
         recyclerView?.isVisible = true
-        progressBarContainer?.isGone = true
+        progressBarContainer?.hide()
         toggleAnotherViewsVisibility(true)
         toggleEmptyState(true)
     }
@@ -161,7 +163,11 @@ class PowerView(
             container!!.isGone = isEmpty
         } else {
             recyclerView?.isGone = isEmpty
-            progressBarContainer?.isGone = isEmpty
+            if (isEmpty) {
+                progressBarContainer?.hide()
+            } else {
+                progressBarContainer?.show()
+            }
         }
         emptyView?.isVisible = isEmpty
     }

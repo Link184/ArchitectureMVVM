@@ -18,7 +18,7 @@
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true">
 
-        <ProgressBar
+        <androidx.core.widget.ContentLoadingProgressBar
             style="?attr/indeterminateProgressStyle"
             android:layout_width="36dp"
             android:layout_height="36dp"
