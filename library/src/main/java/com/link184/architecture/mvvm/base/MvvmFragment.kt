@@ -73,14 +73,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
         powerView?.hideProgress()
     }
 
-    /**
-     * Handle all global errors. This method can be and is called from every context dependent
-     * module.
-     */
-    override fun onError(t: Throwable) {
-        powerView?.showEmptyState()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewModel.state observe {

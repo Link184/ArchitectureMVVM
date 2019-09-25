@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.LayoutRes
 import androidx.core.view.*
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.R
 
 class PowerView(
@@ -20,27 +21,38 @@ class PowerView(
     private val containerPosition: Int
     //    private val hideContentWhenProgress: Boolean
     private var container: ViewGroup? = null
-    private val swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout?
-        get() = container as? androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+    private val swipeRefreshLayout: SwipeRefreshLayout?
+        get() = container as? SwipeRefreshLayout
     private val progressBarContainer: ProgressBarContainer?
     val recyclerView: androidx.recyclerview.widget.RecyclerView?
     private val emptyView: View?
 
     constructor(context: Context) : this(context, null, 0, 0)
     constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
+    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(
+        context,
+        attrs,
+        defStyleAttr,
+        0
+    )
 
     init {
-        val a = context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, defStyleRes)
+        val a =
+            context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, defStyleRes)
 
         val containerOrder = a.getInt(R.styleable.PowerView_containerType, 0)
         val withProgressBar = a.getBoolean(R.styleable.PowerView_withProgressBar, false)
-        val withSwipeRefreshLayout = a.getBoolean(R.styleable.PowerView_withSwipeRefreshLayout, false)
+        val withSwipeRefreshLayout =
+            a.getBoolean(R.styleable.PowerView_withSwipeRefreshLayout, false)
         val withRecyclerView = a.getBoolean(R.styleable.PowerView_withRecyclerView, false)
 
-        val layoutAnimationId = a.getResourceId(R.styleable.PowerView_recyclerViewLayoutAnimation, R.anim.layout_rise_up_medium)
+        val layoutAnimationId = a.getResourceId(
+            R.styleable.PowerView_recyclerViewLayoutAnimation,
+            R.anim.layout_rise_up_medium
+        )
 
-        val disableLayoutAnimation = a.getBoolean(R.styleable.PowerView_disableLayoutAnimation, false)
+        val disableLayoutAnimation =
+            a.getBoolean(R.styleable.PowerView_disableLayoutAnimation, false)
 
         val emptyViewId = a.getResourceId(R.styleable.PowerView_emptyStateLayoutId, -1)
         val progressBarLayoutId = a.getResourceId(R.styleable.PowerView_progressBarLayoutId, -1)
@@ -87,7 +99,7 @@ class PowerView(
         if (withSwipeRefreshLayout) {
             if (swipeRefreshLayout == null) {
                 removeAllViews()
-                container = androidx.swiperefreshlayout.widget.SwipeRefreshLayout(context).also {
+                container = SwipeRefreshLayout(context).also {
                     it.id = R.id.powerContainer
                 }
                 progressBarContainer?.let { container!! += it }
@@ -114,7 +126,7 @@ class PowerView(
         }
     }
 
-    fun setOnRefreshListener(refreshListener: androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener) {
+    fun setOnRefreshListener(refreshListener: SwipeRefreshLayout.OnRefreshListener) {
         swipeRefreshLayout?.setOnRefreshListener(refreshListener)
     }
 
