@@ -34,6 +34,9 @@ abstract class MvvmActivity<VM : BaseViewModel>(
     override fun initViews() {
     }
 
+    override fun initViews(savedInstanceState: Bundle?) {
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
@@ -89,6 +92,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 
         powerView?.setOnRefreshListener(this)
         initViews()
+        initViews(savedInstanceState)
 
         viewModel.state observe {
             when (it) {

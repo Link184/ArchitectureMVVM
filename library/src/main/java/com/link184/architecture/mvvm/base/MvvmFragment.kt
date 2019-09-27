@@ -41,6 +41,9 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     override fun initViews() {
     }
 
+    override fun initViews(savedInstanceState: Bundle?) {
+    }
+
     override fun onResume() {
         super.onResume()
         viewModel.onResume()
@@ -105,6 +108,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
         powerView?.setOnRefreshListener(this)
         initViews()
+        initViews(savedInstanceState)
         viewModel.attachView()
         viewModel.render()
     }

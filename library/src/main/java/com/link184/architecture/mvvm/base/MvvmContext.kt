@@ -1,5 +1,6 @@
 package com.link184.architecture.mvvm.base
 
+import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
@@ -7,6 +8,8 @@ import com.link184.architecture.mvvm.common.Event
 
 interface MvvmContext : LifecycleOwner {
     fun initViews()
+
+    fun initViews(savedInstanceState: Bundle?)
 
     fun onResume()
 
