@@ -1,11 +1,11 @@
 package com.link184.architecture.mvvm.base
 
 import android.os.Bundle
-import android.view.ViewGroup
+import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.children
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
@@ -86,9 +86,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
             setContentView(layoutId!!)
         }
 
-        powerView = findViewById<ViewGroup>(android.R.id.content).children.firstOrNull {
-            it is PowerView
-        } as? PowerView
+        powerView = findViewById<View>(android.R.id.content).findViewWithTag(R.id.powerViewTag)
 
         powerView?.setOnRefreshListener(this)
         initViews()

@@ -5,9 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.LayoutRes
-import androidx.core.view.children
 import androidx.fragment.app.DialogFragment
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.core.parameter.ParametersDefinition
@@ -100,11 +100,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        powerView = when (view) {
-            is PowerView -> view
-            is ViewGroup -> view.children.firstOrNull { it is PowerView } as? PowerView
-            else -> null
-        }
+        powerView = view.findViewWithTag(R.id.powerViewTag)
 
         powerView?.setOnRefreshListener(this)
         initViews()

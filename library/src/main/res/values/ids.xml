@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <item name="powerViewTag" type="id" />
     <item name="powerRecyclerView" type="id" />
     <item name="powerEmptyView" type="id" />
     <item name="powerContainer" type="id" />

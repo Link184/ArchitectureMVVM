@@ -31,6 +31,7 @@ class PowerView(
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
 
     init {
+        tag = R.id.powerViewTag
         val a = context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, defStyleRes)
 
         val containerOrder = a.getInt(R.styleable.PowerView_containerType, 0)
