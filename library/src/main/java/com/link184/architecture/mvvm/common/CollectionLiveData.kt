@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 
 class CollectionLiveData<T>: LiveData<MutableList<T>>(), MutableList<T> {
     init {
-        postValue(mutableListOf())
+        value = mutableListOf()
     }
 
     override val size: Int = value.size
@@ -45,13 +45,9 @@ class CollectionLiveData<T>: LiveData<MutableList<T>>(), MutableList<T> {
 
     override fun subList(fromIndex: Int, toIndex: Int): MutableList<T> = value.subList(fromIndex, toIndex).also { notifyListChange() }
 
-    override fun addAll(elements: Collection<T>) : Boolean {
-        return value.addAll(elements).also { notifyListChange() }
-    }
+    override fun addAll(elements: Collection<T>) : Boolean = value.addAll(elements).also { notifyListChange() }
 
-    override fun add(element: T): Boolean {
-        return value.add(element).also { notifyListChange() }
-    }
+    override fun add(element: T): Boolean = value.add(element).also { notifyListChange() }
 
     override fun getValue(): MutableList<T> {
         return super.getValue()!!

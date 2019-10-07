@@ -3,7 +3,6 @@ package com.link184.architecture.mvvm.common
 open class Event<T>(private val content: T) {
 
     var hasBeenHandled = false
-        private set
 
     /**
      * Returns the content and prevents its use again.
