@@ -24,7 +24,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    protected val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier) {
+    val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
 

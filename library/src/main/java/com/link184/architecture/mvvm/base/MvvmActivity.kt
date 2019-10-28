@@ -21,7 +21,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 ) : AppCompatActivity(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    protected val viewModel: VM by viewModel(clazz, qualifier) {
+    val viewModel: VM by viewModel(clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
 
