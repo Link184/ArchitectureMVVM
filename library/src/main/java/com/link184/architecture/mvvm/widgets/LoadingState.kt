@@ -57,7 +57,7 @@ internal sealed class LoadingState(
             null
         }?.also {
             it.id = R.id.powerRecyclerView
-            it.layoutManager =LinearLayoutManager(view.context)
+            it.layoutManager = LinearLayoutManager(view.context)
             it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             if (!disableLayoutAnimation) {
                 it.layoutAnimation = AnimationUtils.loadLayoutAnimation(view.context, layoutAnimationId)
