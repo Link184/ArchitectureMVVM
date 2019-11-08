@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.R
@@ -57,7 +56,6 @@ internal sealed class LoadingState(
             null
         }?.also {
             it.id = R.id.powerRecyclerView
-            it.layoutManager = LinearLayoutManager(view.context)
             it.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             if (!disableLayoutAnimation) {
                 it.layoutAnimation = AnimationUtils.loadLayoutAnimation(view.context, layoutAnimationId)
