@@ -1,5 +1,6 @@
 package com.link184.architecture.mvvm.base
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
@@ -33,6 +34,16 @@ interface MvvmContext : LifecycleOwner {
      * module.
      */
     fun onError(t: Throwable)
+
+    /**
+     * Common startActivityForResult method
+     */
+    fun startActivityForResult(intent: Intent, requestCode: Int)
+
+    /**
+     * Common startActivityForResult method
+     */
+    fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle? = null)
 
     /**
      * Useful extension to reduce boilerplate.
