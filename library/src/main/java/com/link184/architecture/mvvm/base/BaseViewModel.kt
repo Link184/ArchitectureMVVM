@@ -3,6 +3,7 @@ package com.link184.architecture.mvvm.base
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
@@ -14,7 +15,7 @@ abstract class BaseViewModel : ViewModel() {
     /**
      * Starts coroutines stateless
      */
-    protected infix fun <T> launch(block: suspend () -> Result<T>): Job {
+    protected infix fun <T> launch(block: suspend CoroutineScope.() -> Result<T>): Job {
         return viewModelScope.launch {
             state.postValue(DataState.Progress)
             block()

@@ -101,6 +101,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         powerView = view.findViewWithTag(R.id.powerViewTag)
+        powerView?.let { lifecycle.addObserver(it) }
 
         powerView?.setOnRefreshListener(this)
         initViews()
@@ -111,6 +112,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
     override fun onDestroyView() {
         viewModel.detachView()
+        powerView?.let { lifecycle.removeObserver(it) }
         powerView = null
         super.onDestroyView()
     }

@@ -54,6 +54,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 
     override fun onDestroy() {
         viewModel.killView()
+        powerView?.let { lifecycle.removeObserver(it) }
         powerView = null
         super.onDestroy()
     }
@@ -87,6 +88,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
         }
 
         powerView = findViewById<View>(android.R.id.content).findViewWithTag(R.id.powerViewTag)
+        powerView?.let { lifecycle.addObserver(it) }
 
         powerView?.setOnRefreshListener(this)
         initViews()

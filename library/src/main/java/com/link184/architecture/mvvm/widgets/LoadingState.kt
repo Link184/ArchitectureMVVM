@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.view.animation.AnimationUtils
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
-import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.R
 
@@ -49,9 +48,9 @@ internal sealed class LoadingState(
         }
     }
 
-    internal val recyclerView: RecyclerView? by lazy {
+    internal val recyclerView: PowerRecyclerView? by lazy {
         if (withRecyclerView) {
-            RecyclerView(view.context)
+            PowerRecyclerView(view.context)
         } else {
             null
         }?.also {

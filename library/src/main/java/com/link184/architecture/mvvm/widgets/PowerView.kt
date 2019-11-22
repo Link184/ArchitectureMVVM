@@ -8,14 +8,18 @@ import android.view.ViewGroup
 import android.widget.RelativeLayout
 import androidx.annotation.LayoutRes
 import androidx.core.view.*
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleObserver
+import androidx.lifecycle.OnLifecycleEvent
 import com.link184.architecture.mvvm.R
+import com.link184.extensions.loge
 
 class PowerView(
     context: Context,
     attrs: AttributeSet?,
     defStyleAttr: Int,
     defStyleRes: Int
-) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes) {
+) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes), LifecycleObserver {
 
     private val containerPosition: Int
     //    private val hideContentWhenProgress: Boolean
@@ -23,7 +27,7 @@ class PowerView(
     private val swipeRefreshLayout: androidx.swiperefreshlayout.widget.SwipeRefreshLayout?
         get() = container as? androidx.swiperefreshlayout.widget.SwipeRefreshLayout
     private val progressBarContainer: ProgressBarContainer?
-    val recyclerView: androidx.recyclerview.widget.RecyclerView?
+    val recyclerView: PowerRecyclerView?
     private val emptyView: View?
 
     constructor(context: Context) : this(context, null, 0, 0)
@@ -108,6 +112,14 @@ class PowerView(
 
     private fun inflateEmptyView(@LayoutRes emptyViewId: Int): View? {
         return if (emptyViewId != -1) {
+            recyclerView?.listenToChanges { isEmpty ->
+                if (isEmpty) {
+                    showEmptyState()
+                } else {
+                    hideEmptyState()
+                }
+            }
+
             LayoutInflater.from(context).inflate(emptyViewId, this, false)
                 .also { it.id = R.id.powerEmptyView }
         } else {
@@ -123,6 +135,7 @@ class PowerView(
         swipeRefreshLayout?.isRefreshing = true
         recyclerView?.let {
             it.isVisible = it.adapter != null && it.adapter!!.itemCount > 0
+
         }
         toggleAnotherViewsVisibility(true)
         progressBarContainer?.show()
@@ -134,6 +147,7 @@ class PowerView(
         recyclerView?.scheduleLayoutAnimation()
         progressBarContainer?.hide()
         toggleAnotherViewsVisibility(false)
+        loge(recyclerView?.adapter?.itemCount.toString())
     }
 
     fun showEmptyState() {
@@ -171,5 +185,10 @@ class PowerView(
             }
         }
         emptyView?.isVisible = isEmpty
+    }
+
+    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
+    private fun onDestroy() {
+        recyclerView?.release()
     }
 }
