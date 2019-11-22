@@ -12,7 +12,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.OnLifecycleEvent
 import com.link184.architecture.mvvm.R
-import com.link184.extensions.loge
 
 class PowerView(
     context: Context,
@@ -147,7 +146,6 @@ class PowerView(
         recyclerView?.scheduleLayoutAnimation()
         progressBarContainer?.hide()
         toggleAnotherViewsVisibility(false)
-        loge(recyclerView?.adapter?.itemCount.toString())
     }
 
     fun showEmptyState() {

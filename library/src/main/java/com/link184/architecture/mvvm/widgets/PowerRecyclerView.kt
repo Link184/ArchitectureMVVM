@@ -5,9 +5,9 @@ import android.util.AttributeSet
 import androidx.recyclerview.widget.RecyclerView
 
 class PowerRecyclerView @JvmOverloads constructor(
-        context: Context,
-        attrs: AttributeSet? = null,
-        defStyle: Int = 0
+    context: Context,
+    attrs: AttributeSet? = null,
+    defStyle: Int = 0
 ) : RecyclerView(context, attrs, defStyle) {
     private var isEmptyListener: ((Boolean) -> Unit)? = null
     private var adapterDataObserver = object : AdapterDataObserver() {
@@ -21,11 +21,14 @@ class PowerRecyclerView @JvmOverloads constructor(
     }
 
     override fun setAdapter(adapter: Adapter<*>?) {
-        if (adapter?.hasObservers() == true) {
-            adapter.unregisterAdapterDataObserver(adapterDataObserver)
-        }
-        adapter?.registerAdapterDataObserver(adapterDataObserver)
         super.setAdapter(adapter)
+        adapter?.let {
+            kotlin.runCatching {
+                it.unregisterAdapterDataObserver(adapterDataObserver)
+            }
+            it.registerAdapterDataObserver(adapterDataObserver)
+            isEmptyListener?.invoke(it.itemCount == 0)
+        }
     }
 
     internal fun listenToChanges(isEmptyListener: (Boolean) -> Unit) {
