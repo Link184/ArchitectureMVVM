@@ -44,26 +44,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     override fun initViews(savedInstanceState: Bundle?) {
     }
 
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
-    }
-
-    override fun onPause() {
-        viewModel.onPause()
-        super.onPause()
-    }
-
-    override fun onStop() {
-        viewModel.detachView()
-        super.onStop()
-    }
-
-    override fun onDestroy() {
-        viewModel.killView()
-        super.onDestroy()
-    }
-
     override fun onRefresh() {
         viewModel.onRefresh()
     }
@@ -106,12 +86,10 @@ abstract class MvvmFragment<VM : BaseViewModel>(
         powerView?.setOnRefreshListener(this)
         initViews()
         initViews(savedInstanceState)
-        viewModel.attachView()
         viewModel.render()
     }
 
     override fun onDestroyView() {
-        viewModel.detachView()
         powerView?.let { lifecycle.removeObserver(it) }
         powerView = null
         super.onDestroyView()

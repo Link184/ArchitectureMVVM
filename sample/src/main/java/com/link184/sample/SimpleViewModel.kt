@@ -12,7 +12,6 @@ class SimpleViewModel(name: DependencyOne, age: DependencyTwo) : BaseViewModel()
     init {
         this.name.postValue(name.name)
         this.age.postValue(age.age)
-
     }
 
     fun addFewItems() {

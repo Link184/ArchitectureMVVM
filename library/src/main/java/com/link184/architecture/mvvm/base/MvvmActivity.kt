@@ -6,8 +6,8 @@ import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.R
+import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -21,7 +21,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 ) : AppCompatActivity(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    val viewModel: VM by viewModel(clazz, qualifier) {
+    val viewModel: VM by smartViewModel(clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
 
@@ -39,16 +39,13 @@ abstract class MvvmActivity<VM : BaseViewModel>(
 
     override fun onResume() {
         super.onResume()
-        viewModel.onResume()
     }
 
     override fun onPause() {
-        viewModel.onPause()
         super.onPause()
     }
 
     override fun onStop() {
-        viewModel.detachView()
         super.onStop()
     }
 
@@ -63,6 +60,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
      * Override it to handle refresh UI action. The method is triggered from SwipeRefreshLayout.
      */
     override fun onRefresh() {
+        viewModel.onRefresh()
     }
 
     override fun showProgress() {
@@ -104,7 +102,6 @@ abstract class MvvmActivity<VM : BaseViewModel>(
                 is DataState.Progress -> showProgress()
             }
         }
-        viewModel.attachView()
         viewModel.render()
     }
 }
