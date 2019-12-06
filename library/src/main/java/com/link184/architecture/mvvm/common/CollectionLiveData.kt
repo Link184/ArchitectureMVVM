@@ -53,6 +53,22 @@ class CollectionLiveData<T>: LiveData<MutableList<T>>(), MutableList<T> {
         return super.getValue()!!
     }
 
+    fun resetList(newList: List<T>) {
+        value.clear()
+        value.addAll(newList)
+        notifyListChange()
+    }
+
+    fun updateList(block: List<T>.() -> Unit) {
+        value.apply(block)
+        notifyListChange()
+    }
+
+    fun updateItem(index: Int, block: T.() -> Unit) {
+        value[index].apply(block)
+        notifyListChange()
+    }
+
     private fun notifyListChange() {
         postValue(value)
     }
