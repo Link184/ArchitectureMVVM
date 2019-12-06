@@ -59,14 +59,16 @@ class CollectionLiveData<T>: LiveData<MutableList<T>>(), MutableList<T> {
         notifyListChange()
     }
 
-    fun updateList(block: List<T>.() -> Unit) {
+    fun updateList(block: MutableList<T>.() -> Unit) {
         value.apply(block)
         notifyListChange()
     }
 
-    fun updateItem(index: Int, block: T.() -> Unit) {
-        value[index].apply(block)
-        notifyListChange()
+    fun updateItem(index: Int, block: T.() -> T) : T {
+        return value[index].block().also {
+            value[index] = it
+            notifyListChange()
+        }
     }
 
     private fun notifyListChange() {
