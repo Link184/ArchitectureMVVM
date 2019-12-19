@@ -14,7 +14,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleEventObserver {
     /**
      * Starts coroutines stateless
      */
-    protected infix fun <T> launch(block: suspend CoroutineScope.() -> Result<T>): Job {
+    infix fun <T> launch(block: suspend CoroutineScope.() -> Result<T>): Job {
         return viewModelScope.launch {
             state.postValue(DataState.Progress)
             block()
