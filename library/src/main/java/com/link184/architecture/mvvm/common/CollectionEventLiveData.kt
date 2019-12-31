@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 
 class CollectionEventLiveData<T>: LiveData<Event<MutableList<T>>>(), MutableList<T> {
     init {
-        value = Event(mutableListOf())
+        val initialValue = Event<MutableList<T>>(mutableListOf())
+        initialValue.hasBeenHandled = true
+        value = initialValue
     }
 
     override val size: Int = value.peekContent().size
@@ -54,7 +56,7 @@ class CollectionEventLiveData<T>: LiveData<Event<MutableList<T>>>(), MutableList
     }
 
     private fun notifyListChange() {
-        postValue(value)
         value.hasBeenHandled = false
+        postValue(value)
     }
 }

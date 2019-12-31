@@ -1,5 +1,6 @@
 package com.link184.architecture.mvvm.base
 
+import android.app.Application
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
+import org.koin.android.ext.android.inject
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -27,6 +29,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier) {
         parametersOf(this, *parameters().values)
     }
+    protected val application: Application by inject()
 
     protected abstract val render: VM.() -> Unit
     @get:LayoutRes
