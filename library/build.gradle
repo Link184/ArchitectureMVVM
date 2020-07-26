@@ -11,7 +11,7 @@ apply from: '../publish.gradle'
 android {
     compileSdkVersion 29
     defaultConfig {
-        minSdkVersion 21
+        minSdkVersion 19
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"
@@ -134,8 +134,6 @@ dependencies {
     api 'com.google.android.material:material:1.1.0-alpha10'
 
     api 'org.koin:koin-androidx-viewmodel:2.0.1'
-
-    implementation "com.link184:common-extensions:1.0.3"
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test:runner:1.2.0'

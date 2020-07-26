@@ -16,9 +16,8 @@ import com.link184.architecture.mvvm.R
 class PowerView(
     context: Context,
     attrs: AttributeSet?,
-    defStyleAttr: Int,
-    defStyleRes: Int
-) : RelativeLayout(context, attrs, defStyleAttr, defStyleRes), LifecycleObserver {
+    defStyleAttr: Int
+) : RelativeLayout(context, attrs, defStyleAttr), LifecycleObserver {
 
     private val containerPosition: Int
     //    private val hideContentWhenProgress: Boolean
@@ -29,13 +28,12 @@ class PowerView(
     val recyclerView: PowerRecyclerView?
     private val emptyView: View?
 
-    constructor(context: Context) : this(context, null, 0, 0)
-    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0, 0)
-    constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : this(context, attrs, defStyleAttr, 0)
+    constructor(context: Context) : this(context, null, 0)
+    constructor(context: Context, attrs: AttributeSet) : this(context, attrs, 0)
 
     init {
         tag = R.id.powerViewTag
-        val a = context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, defStyleRes)
+        val a = context.obtainStyledAttributes(attrs, R.styleable.PowerView, defStyleAttr, 0)
 
         val containerOrder = a.getInt(R.styleable.PowerView_containerType, 0)
         val withProgressBar = a.getBoolean(R.styleable.PowerView_withProgressBar, false)
