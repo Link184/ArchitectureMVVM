@@ -6,9 +6,10 @@ import android.os.Bundle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelStoreOwner
 import com.link184.architecture.mvvm.common.Event
 
-interface MvvmContext : LifecycleOwner, ComponentCallbacks {
+interface MvvmContext : LifecycleOwner, ComponentCallbacks, ViewModelStoreOwner {
     fun initViews()
 
     fun initViews(savedInstanceState: Bundle?)

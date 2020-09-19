@@ -1,10 +1,8 @@
 package com.link184.architecture.mvvm.utils
 
-import androidx.lifecycle.ViewModelStoreOwner
 import com.link184.architecture.mvvm.base.BaseViewModel
 import com.link184.architecture.mvvm.base.MvvmContext
 import com.link184.architecture.mvvm.base.MvvmFragment
-import org.koin.androidx.viewmodel.ViewModelStoreOwnerDefinition
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
 import org.koin.core.parameter.ParametersDefinition
@@ -27,11 +25,10 @@ internal fun <T : BaseViewModel> MvvmFragment<T>.smartViewModel(
 fun <T: BaseViewModel> MvvmFragment<*>.smartSharedViewModel(
     clazz: KClass<T>,
     qualifier: Qualifier? = null,
-    from: ViewModelStoreOwnerDefinition = { activity as ViewModelStoreOwner },
     parameters: ParametersDefinition? = null
 ): Lazy<T> {
     return lazy {
-        getSharedViewModel(clazz, qualifier, from, parameters).apply {
+        getSharedViewModel(clazz, qualifier, parameters).apply {
             lifecycle.addObserver(this)
         }
     }
@@ -39,11 +36,10 @@ fun <T: BaseViewModel> MvvmFragment<*>.smartSharedViewModel(
 
 inline fun <reified T: BaseViewModel> MvvmFragment<*>.smartSharedViewModel(
     qualifier: Qualifier? = null,
-    noinline from: ViewModelStoreOwnerDefinition = { activity as ViewModelStoreOwner },
     noinline parameters: ParametersDefinition? = null
 ): Lazy<T> {
     return lazy {
-        getSharedViewModel(T::class, qualifier, from, parameters).apply {
+        getSharedViewModel(T::class, qualifier, parameters).apply {
             lifecycle.addObserver(this)
         }
     }

@@ -2,7 +2,7 @@ package com.link184.sample
 
 import androidx.lifecycle.MutableLiveData
 import com.link184.architecture.mvvm.base.BaseViewModel
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Observable
 import java.util.concurrent.TimeUnit
 
 class MainViewModel: BaseViewModel() {
