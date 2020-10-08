@@ -4,7 +4,10 @@ import androidx.lifecycle.LiveData
 
 class CollectionLiveData<T>: LiveData<MutableList<T>>(), MutableList<T> {
     init {
-        value = mutableListOf()
+        LiveData::class.java.getDeclaredField("mData").apply {
+            isAccessible = true
+            set(this@CollectionLiveData, mutableListOf<T>())
+        }
     }
 
     override val size: Int = value.size
