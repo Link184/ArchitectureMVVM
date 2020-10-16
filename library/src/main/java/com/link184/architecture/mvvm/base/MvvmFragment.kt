@@ -12,6 +12,10 @@ import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ViewModelOwner
+import org.koin.androidx.viewmodel.ViewModelOwnerDefinition
+import org.koin.androidx.viewmodel.scope.BundleDefinition
+import org.koin.androidx.viewmodel.scope.emptyState
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -22,13 +26,16 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     clazz: KClass<VM>,
     withSharedViewModel: Boolean = false,
     qualifier: Qualifier? = null,
+    bundleDefinition: BundleDefinition = emptyState(),
+    viewModelOwnerDefinition: ViewModelOwnerDefinition? = null,
     parameters: ParametersDefinition = { emptyParametersHolder() }
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier) {
-        parametersOf(this, *parameters().values)
+    val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier, bundleDefinition, viewModelOwnerDefinition ?: { ViewModelOwner.from(this, this) }) {
+        parametersOf(this, *parameters().values.toTypedArray())
     }
+
     protected val application: Application by inject()
 
     protected abstract val render: VM.() -> Unit
