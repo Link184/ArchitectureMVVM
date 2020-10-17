@@ -17,16 +17,14 @@ import org.koin.core.qualifier.Qualifier
 import kotlin.reflect.KClass
 
 abstract class MvvmActivity<VM : BaseViewModel>(
-    clazz: KClass<VM>,
-    qualifier: Qualifier? = null,
-    bundleDefinition: BundleDefinition = emptyState(),
-    parameters: ParametersDefinition = { emptyParametersHolder() }
+    private val clazz: KClass<VM>,
+    private val qualifier: Qualifier? = null,
+    private val bundleDefinition: BundleDefinition = emptyState(),
+    private val parameters: ParametersDefinition = { emptyParametersHolder() }
 ) : AppCompatActivity(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    val viewModel: VM by smartViewModel(clazz, bundleDefinition, qualifier) {
-        parametersOf(this, *parameters().values.toTypedArray())
-    }
+    lateinit var viewModel: VM
 
     protected abstract val render: VM.() -> Unit
     @get:LayoutRes
@@ -87,6 +85,10 @@ abstract class MvvmActivity<VM : BaseViewModel>(
         if (layoutId != -1 && layoutId != null) {
             setContentView(layoutId!!)
         }
+
+        viewModel = smartViewModel(clazz, bundleDefinition, qualifier) {
+            parametersOf(this, *parameters().values.toTypedArray())
+        }.value
 
         powerView = findViewById<View>(android.R.id.content).findViewWithTag(R.id.powerViewTag)
         powerView?.let { lifecycle.addObserver(it) }
