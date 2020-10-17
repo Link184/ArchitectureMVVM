@@ -17,10 +17,10 @@ import org.koin.core.qualifier.Qualifier
 import kotlin.reflect.KClass
 
 abstract class MvvmActivity<VM : BaseViewModel>(
-    private val clazz: KClass<VM>,
-    private val qualifier: Qualifier? = null,
-    private val bundleDefinition: BundleDefinition = emptyState(),
-    private val parameters: ParametersDefinition = { emptyParametersHolder() }
+    protected open val clazz: KClass<VM>,
+    protected open val qualifier: Qualifier? = null,
+    protected open val bundleDefinition: BundleDefinition = emptyState(),
+    protected open val parameters: ParametersDefinition = { emptyParametersHolder() }
 ) : AppCompatActivity(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {

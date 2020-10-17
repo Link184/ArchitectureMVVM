@@ -12,7 +12,6 @@ import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ViewModelOwnerDefinition
 import org.koin.androidx.viewmodel.scope.BundleDefinition
 import org.koin.androidx.viewmodel.scope.emptyState
@@ -23,15 +22,15 @@ import org.koin.core.qualifier.Qualifier
 import kotlin.reflect.KClass
 
 abstract class MvvmFragment<VM : BaseViewModel>(
-    private val clazz: KClass<VM>,
-    private val withSharedViewModel: Boolean = false,
-    private val qualifier: Qualifier? = null,
-    private val bundleDefinition: BundleDefinition = emptyState(),
-    private val viewModelOwnerDefinition: ViewModelOwnerDefinition? = null,
-    private val parameters: ParametersDefinition = { emptyParametersHolder() }
+    protected open val clazz: KClass<VM>,
+    protected open val withSharedViewModel: Boolean = false,
+    protected open val qualifier: Qualifier? = null,
+    protected open val bundleDefinition: BundleDefinition = emptyState(),
+    protected open val parameters: ParametersDefinition = { emptyParametersHolder() }
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
+    protected open val viewModelOwnerDefinition: ViewModelOwnerDefinition? = null
     lateinit var viewModel: VM
 
     protected val application: Application by inject()
@@ -74,7 +73,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = smartViewModel(withSharedViewModel, clazz, qualifier, bundleDefinition, viewModelOwnerDefinition ?: { ViewModelOwner.from(this, this) }) {
+        viewModel = smartViewModel(withSharedViewModel, clazz, qualifier, bundleDefinition, viewModelOwnerDefinition) {
             parametersOf(this, *parameters().values.toTypedArray())
         }.value
         viewModel.state observe {

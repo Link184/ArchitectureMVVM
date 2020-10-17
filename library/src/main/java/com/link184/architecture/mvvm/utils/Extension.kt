@@ -3,6 +3,7 @@ package com.link184.architecture.mvvm.utils
 import com.link184.architecture.mvvm.base.BaseViewModel
 import com.link184.architecture.mvvm.base.MvvmContext
 import com.link184.architecture.mvvm.base.MvvmFragment
+import org.koin.androidx.viewmodel.ViewModelOwner
 import org.koin.androidx.viewmodel.ViewModelOwnerDefinition
 import org.koin.androidx.viewmodel.ext.android.getSharedViewModel
 import org.koin.androidx.viewmodel.ext.android.getViewModel
@@ -16,22 +17,22 @@ internal fun <T : BaseViewModel> MvvmFragment<T>.smartViewModel(
     clazz: KClass<T>,
     qualifier: Qualifier? = null,
     bundleDefinition: BundleDefinition,
-    viewModelOwnerDefinition: ViewModelOwnerDefinition,
+    viewModelOwnerDefinition: ViewModelOwnerDefinition? = null,
     parameters: ParametersDefinition? = null
 ): Lazy<T> {
     return if (withSharedViewModel) {
-        smartSharedViewModel(clazz, qualifier, bundleDefinition, viewModelOwnerDefinition, parameters)
+        smartSharedViewModel(clazz, qualifier, bundleDefinition, viewModelOwnerDefinition ?: { ViewModelOwner.from(requireActivity(), requireActivity()) }, parameters)
     } else {
         smartViewModel(clazz, bundleDefinition, qualifier, parameters)
     }
 }
 
 fun <T: BaseViewModel> MvvmFragment<*>.smartSharedViewModel(
-    clazz: KClass<T>,
-    qualifier: Qualifier? = null,
-    bundleDefinition: BundleDefinition,
-    viewModelOwnerDefinition: ViewModelOwnerDefinition,
-    parameters: ParametersDefinition? = null
+        clazz: KClass<T>,
+        qualifier: Qualifier? = null,
+        bundleDefinition: BundleDefinition,
+        viewModelOwnerDefinition: ViewModelOwnerDefinition = { ViewModelOwner.from(requireActivity(), requireActivity()) },
+        parameters: ParametersDefinition? = null
 ): Lazy<T> {
     return lazy {
         getSharedViewModel(qualifier, bundleDefinition, viewModelOwnerDefinition, clazz, parameters).apply {
