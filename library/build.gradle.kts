@@ -62,10 +62,10 @@ dependencies {
 
     api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION")
     api("androidx.appcompat:appcompat:1.2.0")
-    api("androidx.core:core-ktx:1.3.2")
+    api("androidx.core:core-ktx:${Android.ANDROIDX_CORE}")
     api("androidx.lifecycle:lifecycle-extensions:2.2.0")
-    api("androidx.lifecycle:lifecycle-livedata-ktx:2.3.0")
-    api("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.0")
+    api("androidx.lifecycle:lifecycle-livedata-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
+    api("androidx.lifecycle:lifecycle-viewmodel-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
     api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
     api("com.google.android.material:material:1.1.0-alpha10")
