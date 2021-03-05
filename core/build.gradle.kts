@@ -11,6 +11,38 @@ plugins {
 group = project.ext["GROUP"]!!
 version = project.ext["VERSION_NAME"]!!
 
+val ktlint by configurations.creating
+
+//tasks.withType(KotlinCompile::class.java).all {
+//    kotlinOptions.jvmTarget = "1.8"
+//    kotlinOptions.freeCompilerArgs =
+//            listOf(*kotlinOptions.freeCompilerArgs.toTypedArray(), "-Xjsr305=strict")
+//}
+
+tasks.register<JavaExec>("ktlint") {
+    group = "verification"
+    description = "Check Kotlin code style."
+    classpath = ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args("--android", "src/**/*.kt")
+}
+
+tasks.named("check") {
+    dependsOn(ktlint)
+}
+
+tasks.register<JavaExec>("ktlintFormat") {
+    group = "formatting"
+    description = "Fix Kotlin code style deviations."
+    classpath = ktlint
+    main = "com.github.shyiko.ktlint.Main"
+    args("--android", "-F", "src/**/*.kt")
+}
+
+dependencies {
+    ktlint("com.github.shyiko:ktlint:0.29.0")
+}
+
 repositories {
     gradlePluginPortal()
     google()
@@ -26,8 +58,13 @@ kotlin {
         }
     }
 
-    android()
-    jvm()
+    android() {
+        compilations.all {
+            kotlinOptions.jvmTarget = "1.8"
+        }
+    }
+    jvm() {
+    }
     iosX64("ios") {
         binaries {
             framework {
@@ -69,11 +106,35 @@ kotlin {
                 api("androidx.lifecycle:lifecycle-extensions:2.2.0")
                 api("androidx.lifecycle:lifecycle-livedata-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
                 api("androidx.lifecycle:lifecycle-viewmodel-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
+
+                api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION")
+                api("androidx.appcompat:appcompat:1.2.0")
+                api("androidx.core:core-ktx:${Android.ANDROIDX_CORE}")
+                api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
+
+                api("com.google.android.material:material:1.1.0-alpha10")
+
+                api("org.koin:koin-androidx-viewmodel:2.2.0-rc-2")
             }
         }
         val androidTest by getting {
             dependencies {
                 implementation(kotlin("test-junit"))
+
+                implementation("org.robolectric:robolectric:4.3.1")
+                implementation("androidx.test:core-ktx:1.3.0")
+//    testImplementation 'android.arch.core:core-testing:1.1.1'
+                implementation("org.powermock:powermock-core:2.0.4")
+                implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
+                implementation("org.koin:koin-test:2.0.1")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.8")
+                implementation("org.jetbrains.kotlin:kotlin-test:$KOTLIN_VERSION")
+            }
+        }
+        val androidAndroidTest by getting {
+            dependencies {
+                implementation("androidx.test:runner:1.3.0")
+                implementation("androidx.test.espresso:espresso-core:3.3.0")
             }
         }
         val iosMain by getting {
