@@ -1,14 +1,15 @@
 plugins {
     id("com.android.application")
     kotlin("android")
+    id("kotlin-android-extensions")
 }
 android {
     compileSdkVersion(30)
 
     defaultConfig {
         applicationId = "com.link184.sample"
-        minSdkVersion(21)
-        targetSdkVersion(30)
+        minSdkVersion(AndroidConfig.MIN_SDK_VERSION)
+        targetSdkVersion(AndroidConfig.TARGET_SDK_VERSION)
         versionCode = 1
         versionName = "1.0"
         testInstrumentationRunner("android.support.test.runner.AndroidJUnitRunner")

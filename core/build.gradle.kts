@@ -1,23 +1,17 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
-object Versions {
-    const val sqlDelight = "1.4.3"
-}
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
     id("kotlin-android-extensions")
+    id("org.jetbrains.dokka")
+    id("com.vanniktech.maven.publish")
 }
+
 group = project.ext["GROUP"]!!
 version = project.ext["VERSION_NAME"]!!
 
 val ktlint by configurations.creating
-
-//tasks.withType(KotlinCompile::class.java).all {
-//    kotlinOptions.jvmTarget = "1.8"
-//    kotlinOptions.freeCompilerArgs =
-//            listOf(*kotlinOptions.freeCompilerArgs.toTypedArray(), "-Xjsr305=strict")
-//}
 
 tasks.register<JavaExec>("ktlint") {
     group = "verification"
@@ -155,9 +149,10 @@ kotlin {
 }
 android {
     compileSdkVersion(30)
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(24)
-        targetSdkVersion(30)
+        minSdkVersion(AndroidConfig.MIN_SDK_VERSION)
+        targetSdkVersion(AndroidConfig.TARGET_SDK_VERSION)
         versionCode = 1
         versionName = "1.0"
     }
