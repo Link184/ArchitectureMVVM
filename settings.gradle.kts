@@ -1,3 +1,2 @@
-//include(":library")
-include(":core")
+include(":common-mvvm")
 include(":sample")

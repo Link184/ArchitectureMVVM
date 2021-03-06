@@ -1,8 +1,8 @@
 import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
 
 plugins {
-    kotlin("multiplatform")
     id("com.android.library")
+    kotlin("multiplatform")
     id("kotlin-android-extensions")
     id("org.jetbrains.dokka")
     id("com.vanniktech.maven.publish")
@@ -53,16 +53,17 @@ kotlin {
     }
 
     android() {
+        publishLibraryVariants("release")
         compilations.all {
             kotlinOptions.jvmTarget = "1.8"
         }
     }
-    jvm() {
-    }
+    jvm()
+
     iosX64("ios") {
         binaries {
             framework {
-                baseName = "core"
+                baseName = "common-main"
             }
         }
     }
@@ -101,7 +102,7 @@ kotlin {
                 api("androidx.lifecycle:lifecycle-livedata-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
                 api("androidx.lifecycle:lifecycle-viewmodel-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
 
-                api("org.jetbrains.kotlin:kotlin-stdlib-jdk7:$KOTLIN_VERSION")
+                api("org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION")
                 api("androidx.appcompat:appcompat:1.2.0")
                 api("androidx.core:core-ktx:${Android.ANDROIDX_CORE}")
                 api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
@@ -155,11 +156,6 @@ android {
         targetSdkVersion(AndroidConfig.TARGET_SDK_VERSION)
         versionCode = 1
         versionName = "1.0"
-    }
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = true
-        }
     }
 
     packagingOptions {

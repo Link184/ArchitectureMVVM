@@ -44,8 +44,8 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION")
     implementation("com.android.support.constraint:constraint-layout:2.0.4")
+    implementation(project(":common-mvvm"))
 //    implementation "com.link184:common-mvvm:0.6.7-SNAPSHOT"
-    implementation(project(":core"))
 
     testImplementation("junit:junit:4.13.1")
     androidTestImplementation("com.android.support.test:runner:1.0.2")
