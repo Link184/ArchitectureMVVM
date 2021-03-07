@@ -12,9 +12,6 @@ import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
 import org.koin.android.ext.android.inject
-import org.koin.androidx.viewmodel.ViewModelOwnerDefinition
-import org.koin.androidx.viewmodel.scope.BundleDefinition
-import org.koin.androidx.viewmodel.scope.emptyState
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -25,12 +22,10 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     protected open val clazz: KClass<VM>,
     protected open val withSharedViewModel: Boolean = false,
     protected open val qualifier: Qualifier? = null,
-    protected open val bundleDefinition: BundleDefinition = emptyState(),
     protected open val parameters: ParametersDefinition = { emptyParametersHolder() }
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    protected open val viewModelOwnerDefinition: ViewModelOwnerDefinition? = null
     lateinit var viewModel: VM
 
     protected val application: Application by inject()
@@ -73,7 +68,7 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = smartViewModel(withSharedViewModel, clazz, qualifier, bundleDefinition, viewModelOwnerDefinition) {
+        viewModel = smartViewModel(withSharedViewModel, clazz, qualifier) {
             parametersOf(this, *parameters().values.toTypedArray())
         }.value
         viewModel.state observe {

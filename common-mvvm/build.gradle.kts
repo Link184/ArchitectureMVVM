@@ -76,12 +76,14 @@ kotlin {
         val commonMain by getting {
             dependencies {
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$KOTLIN_COROUTINES_VERSION")
+                api("io.insert-koin:koin-core:$DI_KOIN_VERSION")
             }
         }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation("io.insert-koin:koin-test:$DI_KOIN_VERSION")
             }
         }
         val jvmMain by getting {
@@ -107,9 +109,10 @@ kotlin {
                 api("androidx.core:core-ktx:${Android.ANDROIDX_CORE}")
                 api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
-                api("com.google.android.material:material:1.1.0-alpha10")
+                api("io.insert-koin:koin-android:$DI_KOIN_VERSION")
+                api("io.insert-koin:koin-android-ext:$DI_KOIN_VERSION")
 
-                api("org.koin:koin-androidx-viewmodel:2.2.0-rc-2")
+                api("com.google.android.material:material:1.1.0-alpha10")
             }
         }
         val androidTest by getting {
@@ -121,7 +124,6 @@ kotlin {
 //    testImplementation 'android.arch.core:core-testing:1.1.1'
                 implementation("org.powermock:powermock-core:2.0.4")
                 implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-                implementation("org.koin:koin-test:2.0.1")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.8")
                 implementation("org.jetbrains.kotlin:kotlin-test:$KOTLIN_VERSION")
             }

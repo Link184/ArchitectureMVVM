@@ -8,8 +8,6 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.link184.architecture.mvvm.R
 import com.link184.architecture.mvvm.utils.smartViewModel
 import com.link184.architecture.mvvm.widgets.PowerView
-import org.koin.androidx.viewmodel.scope.BundleDefinition
-import org.koin.androidx.viewmodel.scope.emptyState
 import org.koin.core.parameter.ParametersDefinition
 import org.koin.core.parameter.emptyParametersHolder
 import org.koin.core.parameter.parametersOf
@@ -19,7 +17,6 @@ import kotlin.reflect.KClass
 abstract class MvvmActivity<VM : BaseViewModel>(
     protected open val clazz: KClass<VM>,
     protected open val qualifier: Qualifier? = null,
-    protected open val bundleDefinition: BundleDefinition = emptyState(),
     protected open val parameters: ParametersDefinition = { emptyParametersHolder() }
 ) : AppCompatActivity(),
     MvvmContext,
@@ -86,7 +83,7 @@ abstract class MvvmActivity<VM : BaseViewModel>(
             setContentView(layoutId!!)
         }
 
-        viewModel = smartViewModel(clazz, bundleDefinition, qualifier) {
+        viewModel = smartViewModel(clazz, qualifier) {
             parametersOf(this, *parameters().values.toTypedArray())
         }.value
 
