@@ -1,20 +1,21 @@
 package com.link184.architecture.mvvm.base
 
 import androidx.lifecycle.*
+import com.link184.architecture.mvvm.lifecycle.LiveData
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 
-abstract class BaseViewModel : ViewModel(), LifecycleEventObserver {
+actual abstract class BaseViewModel : ViewModel(), LifecycleEventObserver {
     val state by lazy {
-        MutableLiveData<DataState<*>>()
+        LiveData<DataState<*>>()
     }
-    val lifecycleState = MutableLiveData<Lifecycle.Event>()
+    val lifecycleState = LiveData<Lifecycle.Event>()
 
     /**
      * Starts coroutines stateless
      */
-    infix fun <T> launch(block: suspend CoroutineScope.() -> Result<T>): Job {
+    actual infix fun <T> launch(block: suspend CoroutineScope.() -> Result<T>): Job {
         return viewModelScope.launch {
             state.postValue(DataState.Progress)
             block()
@@ -38,7 +39,7 @@ abstract class BaseViewModel : ViewModel(), LifecycleEventObserver {
         }
     }
 
-    fun isComponentVisible(): Boolean {
+    actual fun isComponentVisible(): Boolean {
         return lifecycleState.value != Lifecycle.Event.ON_DESTROY
                 && lifecycleState.value != Lifecycle.Event.ON_STOP
                 && lifecycleState.value != Lifecycle.Event.ON_PAUSE
@@ -47,48 +48,48 @@ abstract class BaseViewModel : ViewModel(), LifecycleEventObserver {
     /**
      * Override it to handle refresh UI action. The method is triggered from SwipeRefreshLayout.
      */
-    open fun onRefresh() {
+    actual open fun onRefresh() {
     }
 
     /**
      * Override it to all android lifecycle dependent logic. The method is called when an activity
      * is on onCreate or a fragment is on onViewCreated state.
      */
-    open fun attachView() {
+    actual open fun attachView() {
     }
 
     /**
      * Override it to all android lifecycle dependent logic. This method is called when activity or
      * fragment is onStart state.
      */
-    open fun onStart() {
+    actual open fun onStart() {
     }
 
     /**
      * Override it to all android lifecycle dependent logic. This method is called when activity or
      * fragment is onPause state.
      */
-    open fun onPause() {
+    actual open fun onPause() {
     }
 
     /**
      * Override it to all android lifecycle dependent logic. This method is called when activity or
      * fragment is onResume state.
      */
-    open fun onResume() {
+    actual open fun onResume() {
     }
 
     /**
      * Override it to all android lifecycle dependent logic. The method is called when an activity
      * is on onStop or a fragment is on onViewDestroyed state.
      */
-    open fun detachView() {
+    actual open fun detachView() {
     }
 
     /**
      * Override it to all android lifecycle dependent logic. The method is called when an activity
      * or a fragment is on onDestroy state.
      */
-    open fun killView() {
+    actual open fun killView() {
     }
 }

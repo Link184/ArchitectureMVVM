@@ -26,7 +26,9 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 ): DialogFragment(),
     MvvmContext,
     SwipeRefreshLayout.OnRefreshListener {
-    lateinit var viewModel: VM
+    val viewModel: VM by smartViewModel(withSharedViewModel, clazz, qualifier) {
+        parametersOf(this, *parameters().values.toTypedArray())
+    }
 
     protected val application: Application by inject()
 
@@ -41,9 +43,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
     }
 
     override fun initViews() {
-    }
-
-    override fun initViews(savedInstanceState: Bundle?) {
     }
 
     override fun onRefresh() {
@@ -68,9 +67,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel = smartViewModel(withSharedViewModel, clazz, qualifier) {
-            parametersOf(this, *parameters().values.toTypedArray())
-        }.value
         viewModel.state observe {
             when(it) {
                 is DataState.Success<*> -> hideProgress()
@@ -90,7 +86,6 @@ abstract class MvvmFragment<VM : BaseViewModel>(
 
         powerView?.setOnRefreshListener(this)
         initViews()
-        initViews(savedInstanceState)
         viewModel.render()
     }
 

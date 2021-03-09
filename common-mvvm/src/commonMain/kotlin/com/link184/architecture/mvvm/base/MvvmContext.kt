@@ -1,18 +1,10 @@
 package com.link184.architecture.mvvm.base
 
-import android.content.ComponentCallbacks
-import android.content.Intent
-import android.os.Bundle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelStoreOwner
 import com.link184.architecture.mvvm.common.Event
+import com.link184.architecture.mvvm.lifecycle.*
 
-interface MvvmContext : LifecycleOwner, ComponentCallbacks, ViewModelStoreOwner {
+interface MvvmContext: LifecycleOwner, ViewModelStoreOwner {
     fun initViews()
-
-    fun initViews(savedInstanceState: Bundle?)
 
     fun onResume()
 
@@ -38,28 +30,24 @@ interface MvvmContext : LifecycleOwner, ComponentCallbacks, ViewModelStoreOwner 
     fun onError(t: Throwable)
 
     /**
-     * Common startActivityForResult method
-     */
-    fun startActivityForResult(intent: Intent, requestCode: Int)
-
-    /**
-     * Common startActivityForResult method
-     */
-    fun startActivityForResult(intent: Intent, requestCode: Int, options: Bundle? = null)
-
-    /**
      * Useful extension to reduce boilerplate.
      */
     infix fun <T> LiveData<T>.observe(observer: (t: T) -> Unit) {
-        observe(this@MvvmContext, Observer(observer))
+        observe(this@MvvmContext, object: Observer<T> {
+            override fun onChanged(t: T) {
+                observer(t)
+            }
+        })
     }
 
     /**
      * Do not observe already consumed data
      */
     infix fun <T> LiveData<Event<T>>.observeEvent(observer: (t: T) -> Unit) {
-        observe(this@MvvmContext, Observer {
-            it.getContentIfNotHandled()?.let(observer)
+        observe(this@MvvmContext, object : Observer<Event<T>> {
+            override fun onChanged(t: Event<T>) {
+                t.getContentIfNotHandled()?.let(observer)
+            }
         })
     }
 }

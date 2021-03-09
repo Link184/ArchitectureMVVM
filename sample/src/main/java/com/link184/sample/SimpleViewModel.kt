@@ -1,13 +1,13 @@
 package com.link184.sample
 
-import androidx.lifecycle.MutableLiveData
 import com.link184.architecture.mvvm.base.BaseViewModel
+import com.link184.architecture.mvvm.lifecycle.LiveData
 import kotlinx.coroutines.delay
 
 class SimpleViewModel(name: DependencyOne, age: DependencyTwo) : BaseViewModel() {
-    val name = MutableLiveData<String>()
-    val age = MutableLiveData<Int>()
-    val newItems = MutableLiveData<List<String>>()
+    val name = LiveData<String>()
+    val age = LiveData<Int>()
+    val newItems = LiveData<List<String>>()
 
     init {
         this.name.postValue(name.name)
