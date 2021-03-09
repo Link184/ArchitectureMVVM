@@ -124,7 +124,7 @@ kotlin {
 //    testImplementation 'android.arch.core:core-testing:1.1.1'
                 implementation("org.powermock:powermock-core:2.0.4")
                 implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.3.8")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2")
                 implementation("org.jetbrains.kotlin:kotlin-test:$KOTLIN_VERSION")
             }
         }
