@@ -1,4 +1,4 @@
-# ArchitectureMVVM framework
+# Kotlin multiplatform ArchitectureMVVM framework
 
 > :warning: *UNDER CONSTRUCTION*
 
@@ -11,5 +11,12 @@ Goals:
 3. Exclude native segregation of views when jetpack navigation lib will be stable
 
 ```groovy
-    implementation "com.link184:common-mvvm:0.9.1-SNAPSHOT"
+    // kotlin multiplatform common
+    implementation "com.link184:common-mvvm:1.0.3-SNAPSHOT"
+    
+    // kotlin multiplatform android
+    implementation "com.link184:common-mvvm-android:1.0.3-SNAPSHOT"
+    
+    // kotlin multiplatform nodeJs
+    implementation "com.link184:common-mvvm-nodeJs:1.0.3-SNAPSHOT"
 ```

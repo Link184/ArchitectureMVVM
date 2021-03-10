@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
-
 plugins {
     id("com.android.library")
     kotlin("multiplatform")
@@ -60,13 +58,13 @@ kotlin {
     }
     jvm()
 
-    iosX64("ios") {
-        binaries {
-            framework {
-                baseName = "common-main"
-            }
-        }
-    }
+//    iosX64("ios") {
+//        binaries {
+//            framework {
+//                baseName = "common-main"
+//            }
+//        }
+//    }
     js("nodeJs") {
         nodejs {
         }
@@ -134,11 +132,11 @@ kotlin {
                 implementation("androidx.test.espresso:espresso-core:3.3.0")
             }
         }
-        val iosMain by getting {
-            dependencies {
-            }
-        }
-        val iosTest by getting
+//        val iosMain by getting {
+//            dependencies {
+//            }
+//        }
+//        val iosTest by getting
         val nodeJsMain by getting {
             dependencies {
             }
@@ -164,14 +162,14 @@ android {
         exclude("DebugProbesKt.bin")
     }
 }
-val packForXcode by tasks.creating(Sync::class) {
-    group = "build"
-    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
-    val framework = kotlin.targets.getByName<KotlinNativeTarget>("ios").binaries.getFramework(mode)
-    inputs.property("mode", mode)
-    dependsOn(framework.linkTask)
-    val targetDir = File(buildDir, "xcode-frameworks")
-    from({ framework.outputDirectory })
-    into(targetDir)
-}
-tasks.getByName("build").dependsOn(packForXcode)
+//val packForXcode by tasks.creating(Sync::class) {
+//    group = "build"
+//    val mode = System.getenv("CONFIGURATION") ?: "DEBUG"
+//    val framework = kotlin.targets.getByName<org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget>("ios").binaries.getFramework(mode)
+//    inputs.property("mode", mode)
+//    dependsOn(framework.linkTask)
+//    val targetDir = File(buildDir, "xcode-frameworks")
+//    from({ framework.outputDirectory })
+//    into(targetDir)
+//}
+//tasks.getByName("build").dependsOn(packForXcode)

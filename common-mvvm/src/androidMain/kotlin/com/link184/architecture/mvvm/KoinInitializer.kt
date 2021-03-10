@@ -13,7 +13,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.module
 
 object KoinInitializer {
-    private lateinit var koin: Koin
+    lateinit var koin: Koin
 
     fun startKoin(application: Application, koinModules: List<Module>, logLevel: Level?) {
         koin = startKoin {
