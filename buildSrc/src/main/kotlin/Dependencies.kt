@@ -1,6 +1,6 @@
-const val KOTLIN_VERSION = "1.4.31"
+const val KOTLIN_VERSION = "1.5.31"
 const val KOTLIN_COROUTINES_VERSION = "1.4.1"
-const val DI_KOIN_VERSION = "3.0.1-beta-1"
+const val DI_KOIN_VERSION = "3.1.2"
 
 object Android {
     const val ANDROID_LIFECYCLE_VERSION = "2.3.0"

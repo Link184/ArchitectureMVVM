@@ -108,7 +108,7 @@ kotlin {
                 api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
                 api("io.insert-koin:koin-android:$DI_KOIN_VERSION")
-                api("io.insert-koin:koin-android-ext:$DI_KOIN_VERSION")
+                api("io.insert-koin:koin-android-ext:3.0.2")
 
                 api("com.google.android.material:material:1.1.0-alpha10")
             }

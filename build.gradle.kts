@@ -7,11 +7,11 @@ buildscript {
     }
 
     dependencies {
-        classpath("com.android.tools.build:gradle:4.1.2")
+        classpath("com.android.tools.build:gradle:4.2.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$KOTLIN_VERSION")
 
-        classpath("com.vanniktech:gradle-maven-publish-plugin:0.14.2")
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:1.4.20")
+        classpath("com.vanniktech:gradle-maven-publish-plugin:0.18.0")
+        classpath("org.jetbrains.dokka:dokka-gradle-plugin:$KOTLIN_VERSION")
     }
 }
 
