@@ -38,7 +38,6 @@ dependencies {
 repositories {
     gradlePluginPortal()
     google()
-    jcenter()
     mavenCentral()
 }
 kotlin {
@@ -109,6 +108,7 @@ kotlin {
 
                 api("io.insert-koin:koin-android:$DI_KOIN_VERSION")
                 api("io.insert-koin:koin-android-ext:3.0.2")
+                api("io.insert-koin:koin-androidx-compose:$DI_KOIN_VERSION")
 
                 api("com.google.android.material:material:1.1.0-alpha10")
             }
@@ -149,13 +149,11 @@ kotlin {
     }
 }
 android {
-    compileSdkVersion(30)
+    compileSdk = 31
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdkVersion(AndroidConfig.MIN_SDK_VERSION)
-        targetSdkVersion(AndroidConfig.TARGET_SDK_VERSION)
-        versionCode = 1
-        versionName = "1.0"
+        minSdk = AndroidConfig.MIN_SDK_VERSION
+        targetSdk = AndroidConfig.TARGET_SDK_VERSION
     }
 
     packagingOptions {

@@ -12,7 +12,7 @@ android {
         targetSdkVersion(AndroidConfig.TARGET_SDK_VERSION)
         versionCode = 1
         versionName = "1.0"
-        testInstrumentationRunner("android.support.test.runner.AndroidJUnitRunner")
+        testInstrumentationRunner = "android.support.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
