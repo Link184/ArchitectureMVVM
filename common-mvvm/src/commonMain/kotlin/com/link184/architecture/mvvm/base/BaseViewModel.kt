@@ -2,12 +2,15 @@ package com.link184.architecture.mvvm.base
 
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.Flow
 
 expect abstract class BaseViewModel() {
     /**
      * Starts coroutines stateless
      */
     infix fun <T> launch(block: suspend CoroutineScope.() -> Result<T>): Job
+
+    fun <T> launchFlow(block: suspend CoroutineScope.() -> Flow<T>, collector: (T) -> Unit): Job
 
     fun isComponentVisible(): Boolean
 

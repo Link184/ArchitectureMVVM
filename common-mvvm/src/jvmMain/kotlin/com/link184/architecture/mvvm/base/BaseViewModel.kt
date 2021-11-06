@@ -1,7 +1,14 @@
 package com.link184.architecture.mvvm.base
 
 import com.link184.architecture.mvvm.lifecycle.LiveData
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
 
 object ViewModelScope : CoroutineScope {
@@ -25,6 +32,20 @@ actual abstract class BaseViewModel {
             block()
                 .onSuccess { state.postValue(DataState.Success(it)) }
                 .onFailure { state.postValue(DataState.Fail<T>(it)) }
+        }
+    }
+
+    actual fun <T> launchFlow(block: suspend CoroutineScope.() -> Flow<T>, collector: (T) -> Unit): Job {
+        return viewModelScope.launch {
+            state.postValue(DataState.Progress)
+            block()
+                .catch {
+                    state.postValue(DataState.Fail<T>(it))
+                }
+                .collect {
+                    collector(it)
+                    state.postValue(DataState.Success(it))
+                }
         }
     }
 
