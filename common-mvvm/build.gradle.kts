@@ -60,7 +60,7 @@ kotlin {
     iosX64("ios") {
         binaries {
             framework {
-                baseName = "common-main"
+                baseName = "common-mvvm"
             }
         }
     }

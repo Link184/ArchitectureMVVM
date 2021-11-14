@@ -6,18 +6,18 @@ import org.koin.core.context.stopKoin
 import org.koin.core.logger.Level
 import org.koin.core.logger.PrintLogger
 import org.koin.core.module.Module
+import org.koin.dsl.KoinAppDeclaration
 
-object KoinInitializer {
-    lateinit var koin: Koin
-
-    fun startKoin(koinModules: List<Module>, logLevel: Level?) {
-        koin = startKoin {
+actual object KoinInitializer {
+    actual fun startKoin(koinModules: List<Module>, logLevel: Level?, appDeclaration: KoinAppDeclaration): Koin {
+        return startKoin {
+            appDeclaration()
             logLevel?.let { logger(PrintLogger(it)) }
             modules(koinModules)
         }.koin
     }
 
-    fun terminateKoin() {
+    actual fun terminateKoin() {
         stopKoin()
     }
 }
