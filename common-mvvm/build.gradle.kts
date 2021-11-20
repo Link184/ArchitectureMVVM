@@ -102,7 +102,7 @@ kotlin {
                 api("androidx.lifecycle:lifecycle-viewmodel-ktx:${Android.ANDROID_LIFECYCLE_VERSION}")
 
                 api("org.jetbrains.kotlin:kotlin-stdlib:$KOTLIN_VERSION")
-                api("androidx.appcompat:appcompat:1.2.0")
+                api("androidx.appcompat:appcompat:1.3.1")
                 api("androidx.core:core-ktx:${Android.ANDROIDX_CORE}")
                 api("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0-alpha01")
 
@@ -110,7 +110,7 @@ kotlin {
                 api("io.insert-koin:koin-android-ext:3.0.2")
                 api("io.insert-koin:koin-androidx-compose:$DI_KOIN_VERSION")
 
-                api("com.google.android.material:material:1.1.0-alpha10")
+                api("com.google.android.material:material:1.5.0-beta01")
             }
         }
         val androidTest by getting {
@@ -118,18 +118,18 @@ kotlin {
                 implementation(kotlin("test-junit"))
 
                 implementation("org.robolectric:robolectric:4.3.1")
-                implementation("androidx.test:core-ktx:1.3.0")
+                implementation("androidx.test:core-ktx:1.4.0")
 //    testImplementation 'android.arch.core:core-testing:1.1.1'
                 implementation("org.powermock:powermock-core:2.0.4")
                 implementation("com.nhaarman.mockitokotlin2:mockito-kotlin:2.2.0")
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.4.2")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.0")
                 implementation("org.jetbrains.kotlin:kotlin-test:$KOTLIN_VERSION")
             }
         }
         val androidAndroidTest by getting {
             dependencies {
-                implementation("androidx.test:runner:1.3.0")
-                implementation("androidx.test.espresso:espresso-core:3.3.0")
+                implementation("androidx.test:runner:1.4.0")
+                implementation("androidx.test.espresso:espresso-core:3.4.0")
             }
         }
         val iosMain by getting {
